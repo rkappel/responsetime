@@ -1,31 +1,32 @@
-var x = 0;
+postRequest('https://samples.openweathermap.org/data/2.5/forecast?q=Wien,AT&appid=b6907d289e10d714a6e88b30761fae22')
+  .then(data => console.log(data)) // Result from the `response.json()` call
+  .catch(error => console.error(error))
 
-var spaceData;
-
-function setup() {
-  createCanvas(200, 200);
-  loadJSON("http://api.open-notify.org/astros.json", gotData, 'jsonp');
+function postRequest(url, data) {
+  return fetch(url, {
+    credentials: 'same-origin', // 'include', default: 'omit'
+    method: 'GET', // 'GET', 'PUT', 'DELETE', etc.
+    body: JSON.stringify(data), // Coordinate the body type with 'Content-Type'
+    headers: new Headers({
+      'Content-Type': 'application/json'
+    }),
+  })
+  .then(response => response.json())
 }
 
-function gotData(data) {
-  spaceData = data;
-}
 
-function draw() {
-  background(0);
-  
-  if (spaceData) {
-    randomSeed(4);
-    for (var i = 0; i < spaceData.number; i++) {
-      fill(255);
-      ellipse(random(width), random(height), 16, 16);
-    }
-  }
 
-  stroke(255);
-  line(x, 0, x, height);
-  x = x + 1;
-  if (x > width) {
-    x = 0;
-  }
-}
+//var x = 0;
+//
+//var spaceData;
+//
+//function preload() {
+//  loadJSON("http://api.open-notify.org/astros.json", gotData, 'jsonp');
+//}
+//
+//
+//
+//function setup() {
+//  createCanvas(200, 200);
+//  loadJSON("http://api.open-notify.org/astros.json", gotData, 'jsonp');
+//}
